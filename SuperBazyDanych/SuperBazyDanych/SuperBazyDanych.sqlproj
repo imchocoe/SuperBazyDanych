@@ -72,6 +72,7 @@
     <Folder Include="dbo\User Defined Types\" />
     <Folder Include="Security\" />
     <Folder Include="SalesLT\Sequences\" />
+    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\BuildVersion.sql" />
@@ -113,5 +114,6 @@
     <Build Include="Security\SalesLT.sql" />
     <Build Include="Security\Student_7.sql" />
     <Build Include="SalesLT\Sequences\SalesOrderNumber.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
   </ItemGroup>
 </Project>
