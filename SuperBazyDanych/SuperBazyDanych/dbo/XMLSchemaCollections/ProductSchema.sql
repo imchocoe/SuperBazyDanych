@@ -7,6 +7,9 @@
 -- =============================================
 -- Zadanie 6
 -- =============================================
+-- =============================================
+-- Zadanie 6
+-- =============================================
 CREATE XML SCHEMA COLLECTION ProductSchema AS N'
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="Product" type="ProductType"/>
