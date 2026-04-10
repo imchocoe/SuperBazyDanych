@@ -73,6 +73,7 @@
     <Folder Include="Security\" />
     <Folder Include="SalesLT\Sequences\" />
     <Folder Include="Scripts\" />
+    <Folder Include="dbo\XMLSchemaCollections\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\BuildVersion.sql" />
@@ -115,5 +116,7 @@
     <Build Include="Security\Student_7.sql" />
     <Build Include="SalesLT\Sequences\SalesOrderNumber.sql" />
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="SalesLT\Tables\ProductAttribute.sql" />
+    <Build Include="dbo\XMLSchemaCollections\ProductSchema.sql" />
   </ItemGroup>
 </Project>
