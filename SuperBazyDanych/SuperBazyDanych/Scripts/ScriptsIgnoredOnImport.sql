@@ -803,3 +803,78 @@ SET @json = JSON_MODIFY(@json, '$.StudentNumber', 238507);
 
 
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+
+-- =============================================
+-- Zadanie 1
+-- =============================================
+BEGIN TRAN;
+GO
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice -10
+WHERE ProductID = 707;
+GO
+
+WAITFOR DELAY '00:00:30';
+GO
+
+UPDATE SalesLT.SalesOrderDetail
+SET UnitPrice = UnitPrice + 3
+WHERE ProductID = 707;
+GO
+
+rollback
+GO
+
+--uzyty aby cofnac tranzakcje
+--w drugiej sesji
+BEGIN TRAN;
+GO
+
+UPDATE SalesLT.SalesOrderDetail
+SET UnitPrice = UnitPrice -7
+WHERE ProductID = 707;
+GO
+
+WAITFOR DELAY '00:00:30';
+GO
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice -4
+WHERE ProductID = 707;
+GO
+
+rollback --uzyty aby cofnac tranzakcje
+
+-- deadlock jest niebezpieczny, poniewaz powoduje niedostepnosc bazy danych.
+
+-- =============================================
+-- Zadanie 2
+-- =============================================
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+
+-- =============================================
+-- Zadanie 4
+-- =============================================
+
+-- =============================================
+-- Zadanie 5
+-- =============================================
+
+-- =============================================
+-- Zadanie 6
+-- =============================================
+
+-- =============================================
+-- Zadanie 7
+-- =============================================
+GO
