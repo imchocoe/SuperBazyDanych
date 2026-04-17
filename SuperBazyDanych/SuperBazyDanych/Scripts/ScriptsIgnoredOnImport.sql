@@ -1556,3 +1556,255 @@ GO
 
 
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+
+-- =============================================
+-- Zadanie 1
+-- =============================================
+BEGIN TRAN;
+GO
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice -10
+GO
+
+WAITFOR DELAY '00:00:30';
+GO
+
+UPDATE SalesLT.SalesOrderDetail
+SET UnitPrice = UnitPrice + 3
+GO
+
+rollback
+GO
+
+--uzyty aby cofnac tranzakcje
+--w drugiej sesji
+BEGIN TRAN;
+GO
+
+UPDATE SalesLT.SalesOrderDetail
+SET UnitPrice = UnitPrice -7
+GO
+
+WAITFOR DELAY '00:00:30';
+GO
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice +4
+GO
+
+rollback --uzyty aby cofnac tranzakcje
+GO
+
+-- deadlock jest niebezpieczny, poniewaz powoduje niedostepnosc bazy danych.
+
+-- =============================================
+-- Zadanie 2
+-- =============================================
+begin tran
+GO
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice -10
+WHERE ProductID = 680;
+GO
+
+insert into SalesLT.Vendor (Name, AccountNumber, CreditRating, ActiveFlag)
+values ('John','4783939',3,0)
+GO
+
+UPDATE SalesLT.ProductCategory
+SET ModifiedDate = getdate()
+WHERE ParentProductCategoryID = 2;
+GO
+
+truncate table SalesLT.ProductBOM
+GO
+
+select * from SalesLT.Product
+where ProductID = 680
+GO
+
+select * from SalesLT.Vendor
+where AccountNumber='4783939'
+GO
+
+select * from SalesLT.ProductCategory
+where ParentProductCategoryID = 2
+GO
+
+select * from SalesLT.ProductBOM
+GO
+
+rollback
+GO
+
+select * from SalesLT.Product
+where ProductID = 680
+GO
+
+select * from SalesLT.Vendor
+where AccountNumber='4783939'
+GO
+
+select * from SalesLT.ProductCategory
+where ParentProductCategoryID = 2
+GO
+
+select * from SalesLT.ProductBOM
+GO
+
+--wyniki zapytan select byly rozne w tranzakcji i po. komendy ktore zostaly uzyte w tranzakcji zostaly cofniete po komendzie rollback, dlatego select po tranzakcji pokazal inne wyniki
+
+
+
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+SET TRANSACTION ISOLATION LEVEL REad uncommitted
+GO
+
+begin tran
+GO
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice -10
+WHERE ProductID = 680;
+GO
+
+WAITFOR DELAY '00:05:0'
+GO
+
+insert into SalesLT.Vendor (Name, AccountNumber, CreditRating, ActiveFlag)
+values ('John','4783939',3,0)
+GO
+
+WAITFOR DELAY '00:05:0'
+GO
+
+UPDATE SalesLT.ProductCategory
+SET ModifiedDate = getdate()
+WHERE ParentProductCategoryID = 2;
+GO
+
+WAITFOR DELAY '00:05:0'
+GO
+
+truncate table SalesLT.ProductBOM
+GO
+
+WAITFOR DELAY '00:05:0'
+GO
+
+rollback
+-- =============================================
+-- Zadanie 4
+-- =============================================
+begin try
+
+
+UPDATE SalesLT.Product
+SET ListPrice = ListPrice /0
+WHERE ProductID = 680;
+
+end try
+begin catch
+print'Coś nie działa :(('
+end catch
+-- =============================================
+-- Zadanie 5
+-- =============================================
+--moj scenariusz to zlozenie zamowienia w sklepie
+--zalozenia: istnienie tabeli dotyczacych produktu, klienta i zamowien (product,salesordersdetail,customer, salesordersheader)
+--3 pierwsze zmienne wskazuja dane podane przez klienta, a czwarta jest pomocnicza. na poczatku jest pierwszy mozliwy blad
+-- dotyczacy ilosci produktow-nie moze byc ich mniej niz 1 inaczej zamowienie nie mialoby sensu
+--nastepnie jest wyszukany produkt wedlug wczesniej podanego id oraz dodany wiersz z odpowiednimi danymi do tabeli dot. zamowien
+--jezeli wystapia inne bledy zostanie wyswietlony komunikat poniewaz wszystkie akcje po tworzeniu zmiennych znajduja sie w try...catch
+
+declare @CustomerID int=3
+declare @ProductID int=707
+declare @Quantity int=5
+declare @Price money
+declare @Value money
+declare @OrderId int
+
+BEGIN TRY
+	if @Quantity<1
+	
+		throw 50001, 'Za mała ilość-Błąd',1
+	
+	select @Price=ListPrice
+	from SalesLT.Product 
+	where ProductID=@ProductID
+	set @Value=@Quantity*@Price
+	insert into SalesLT.SalesOrderHeader (RevisionNumber,OrderDate,DueDate,Status,OnlineOrderFlag,CustomerID,ShipMethod,SubTotal,TaxAmt,Freight,ModifiedDate)
+	values (1,getdate(),getdate()+7,1,0,@CustomerID,'Post',@Value,@Value*0.19,@Value-@Value*0.19,getdate())
+	select top 1 @OrderId = SalesOrderID from SalesLT.SalesOrderHeader
+	order by SalesOrderID desc
+	
+
+	insert into SalesLT.SalesOrderDetail (SalesOrderID,OrderQty,ProductID,UnitPrice,UnitPriceDiscount,ModifiedDate)
+	values (@OrderId,@Quantity,@ProductID,@Price,0,getdate())
+	print 'Order finalized'
+	
+
+ 
+END TRY
+BEGIN CATCH
+  print 'Something went wrong. Try again or contact customer support'
+  PRINT 'DEBUG INFO: ' + ERROR_MESSAGE();
+END CATCH
+
+GO
+
+-- =============================================
+-- Zadanie 6
+-- =============================================
+
+declare @CustomerID int=3
+declare @ProductID int=707
+declare @Quantity int=5
+declare @Price money
+declare @Value money
+declare @OrderId int
+
+BEGIN TRY
+	begin tran
+	if @Quantity<1
+	
+		throw 50001, 'Za mała ilość-Błąd',1
+	
+	select @Price=ListPrice
+	from SalesLT.Product 
+	where ProductID=@ProductID
+	set @Value=@Quantity*@Price
+	insert into SalesLT.SalesOrderHeader (RevisionNumber,OrderDate,DueDate,Status,OnlineOrderFlag,CustomerID,ShipMethod,SubTotal,TaxAmt,Freight,ModifiedDate)
+	values (1,getdate(),getdate()+7,1,0,@CustomerID,'Post',@Value,@Value*0.19,@Value-@Value*0.19,getdate())
+	select top 1 @OrderId = SalesOrderID from SalesLT.SalesOrderHeader
+	order by SalesOrderID desc
+	
+
+	insert into SalesLT.SalesOrderDetail (SalesOrderID,OrderQty,ProductID,UnitPrice,UnitPriceDiscount,ModifiedDate)
+	values (@OrderId,@Quantity,@ProductID,@Price,0,getdate())
+	commit tran
+	print 'Order finalized'
+	
+
+ 
+END TRY
+BEGIN CATCH
+	if @@trancount>0
+		rollback tran
+  print 'Something went wrong. Try again or contact customer support'
+  PRINT 'DEBUG INFO: ' + ERROR_MESSAGE();
+END CATCH
+
+
+GO
