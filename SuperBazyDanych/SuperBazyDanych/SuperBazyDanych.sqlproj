@@ -74,6 +74,7 @@
     <Folder Include="SalesLT\Sequences\" />
     <Folder Include="Scripts\" />
     <Folder Include="dbo\XMLSchemaCollections\" />
+    <Folder Include="Student_7\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\BuildVersion.sql" />
@@ -119,5 +120,6 @@
     <Build Include="SalesLT\Tables\ProductAttribute.sql" />
     <Build Include="dbo\XMLSchemaCollections\ProductSchema.sql" />
     <Build Include="dbo\User Defined Types\E7_surname.sql" />
+    <Build Include="Student_7\Views\MyLogicView.sql" />
   </ItemGroup>
 </Project>

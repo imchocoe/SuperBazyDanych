@@ -1916,3 +1916,47 @@ GO
 
 
 GO
+
+alter table [238507].Customer
+alter column LastName E7_surname
+GO
+
+alter table [238507].CustomerHistory
+alter column LastName E7_surname
+GO
+
+
+
+-- =============================================
+-- Zadanie 5
+-- =============================================
+GO
+
+--Syntax Error: Incorrect syntax near 'CREATE'.
+--Syntax Error: Incorrect syntax near 'VIEW'.
+--
+--
+---- =============================================
+---- Zadanie 2
+---- =============================================
+--DECLARE @ProductInfo nvarchar(50) =N'[{"ProductID":707,"NewPrice":22},
+--{"ProductID":708,"NewPrice":23},
+--{"ProductID":709,"NewPrice":24},
+--{"ProductID":710,"NewPrice":25},
+--{"ProductID":711,"NewPrice":23}]'
+--
+----widoki nie mogą odwoływać się do zmiennych lokalnych 
+--
+---- =============================================
+---- Zadanie 3
+---- =============================================
+---- order by nie moze zostac uzyte w widokach bez komendy top/offset
+--CREATE VIEW [238507_order] as
+--SELECT top (100) percent 
+--ProductID,Name
+--FROM SalesLT.Product
+--order by ProductID desc
+
+
+
+GO
