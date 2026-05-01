@@ -118,5 +118,6 @@
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
     <Build Include="SalesLT\Tables\ProductAttribute.sql" />
     <Build Include="dbo\XMLSchemaCollections\ProductSchema.sql" />
+    <Build Include="dbo\User Defined Types\E7_surname.sql" />
   </ItemGroup>
 </Project>
