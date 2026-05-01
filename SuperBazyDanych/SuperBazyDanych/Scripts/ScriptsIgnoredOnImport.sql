@@ -1836,3 +1836,37 @@ GO
 -- =============================================
 
 GO
+
+alter table [238507].Customer
+alter column LastName E7_surname
+GO
+
+alter table [238507].CustomerHistory
+alter column LastName E7_surname
+GO
+
+
+
+-- =============================================
+-- Zadanie 2
+-- =============================================
+DECLARE @ProductInfo nvarchar(50) =N'[{"ProductID":707,"NewPrice":22},
+{"ProductID":708,"NewPrice":23},
+{"ProductID":709,"NewPrice":24},
+{"ProductID":710,"NewPrice":25},
+{"ProductID":711,"NewPrice":23}]'
+
+--widoki nie mogą odwoływać się do zmiennych lokalnych tylko do 
+-- =============================================
+-- Zadanie 3
+-- =============================================
+
+-- =============================================
+-- Zadanie 4
+-- =============================================
+
+-- =============================================
+-- Zadanie 5
+-- =============================================
+
+GO
