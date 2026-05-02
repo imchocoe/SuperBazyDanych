@@ -2057,3 +2057,57 @@ GO
 -- =============================================
 
 GO
+
+--test
+UPDATE SalesLT.Product 
+SET ListPrice = ListPrice * 1.1 
+WHERE ProductID = 680;
+GO
+
+SELECT * FROM SalesLT.ProductPriceHistory
+GO
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+WITH CategoryHierarchy AS
+(
+    -- anchor
+    SELECT 
+        ProductCategoryID,
+        ParentProductCategoryID,
+        Name,
+        cast (Name as nvarchar(max)) as CategoryPath
+    FROM SalesLT.ProductCategory
+    WHERE ParentProductCategoryID IS NULL
+
+    UNION ALL
+
+    -- recursive member
+    SELECT 
+        c.ProductCategoryID,
+        c.ParentProductCategoryID,
+        c.Name,
+        cast(ch.CategoryPath+'->'+c.Name as nvarchar(max))
+    FROM SalesLT.ProductCategory c
+    JOIN CategoryHierarchy ch 
+        ON c.ParentProductCategoryID = ch.ProductCategoryID
+)
+SELECT *
+FROM CategoryHierarchy
+ORDER BY CategoryPath;
+GO
+
+-- =============================================
+-- Zadanie 4
+-- =============================================
+
+-- =============================================
+-- Zadanie 5
+-- =============================================
+
+-- =============================================
+-- Zadanie 6
+-- =============================================
+
+GO
