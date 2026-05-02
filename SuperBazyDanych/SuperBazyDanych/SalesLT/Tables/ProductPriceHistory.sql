@@ -1,0 +1,15 @@
+﻿-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+
+-- =============================================
+-- Zadanie 1
+-- =============================================
+create table SalesLT.ProductPriceHistory (
+ChangeID int identity(1,1) primary key,
+ProductID int,
+ProductName nvarchar(50),
+OldPrice money,
+NewPrice money)

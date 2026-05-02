@@ -34,3 +34,15 @@ CREATE NONCLUSTERED INDEX [IX_Product_ProductNumber_Filtering]
     ON [SalesLT].[Product]([ProductNumber] ASC)
     INCLUDE([Name], [ProductCategoryID], [StandardCost]);
 
+
+GO
+CREATE TRIGGER trg_Product_Price_Changelog
+ON SalesLT.Product
+AFTER update
+AS
+BEGIN
+    INSERT INTO SalesLT.ProductPriceHistory (ProductID,ProductName,OldPrice,NewPrice)
+    SELECT i.ProductID,i.Name,d.ListPrice,i.ListPrice
+    FROM inserted i join deleted d on i.ProductID=d.ProductID
+    where i.ListPrice<>d.ListPrice
+END;

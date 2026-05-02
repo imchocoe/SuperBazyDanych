@@ -122,5 +122,6 @@
     <Build Include="dbo\User Defined Types\E7_surname.sql" />
     <Build Include="Student_7\Views\MyLogicView.sql" />
     <Build Include="Student_7\Views\MoreInfo.sql" />
+    <Build Include="SalesLT\Tables\ProductPriceHistory.sql" />
   </ItemGroup>
 </Project>
