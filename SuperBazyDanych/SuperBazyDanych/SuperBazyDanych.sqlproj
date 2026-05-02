@@ -123,5 +123,7 @@
     <Build Include="Student_7\Views\MyLogicView.sql" />
     <Build Include="Student_7\Views\MoreInfo.sql" />
     <Build Include="SalesLT\Tables\ProductPriceHistory.sql" />
+    <Build Include="SalesLT\Tables\DeletedCustomersLog.sql" />
+    <Build Include="SalesLT\Tables\trg_Customer_Deletion_Log.sql" />
   </ItemGroup>
 </Project>
