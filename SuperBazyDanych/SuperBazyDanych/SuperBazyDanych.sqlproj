@@ -125,5 +125,6 @@
     <Build Include="SalesLT\Tables\ProductPriceHistory.sql" />
     <Build Include="SalesLT\Tables\DeletedCustomersLog.sql" />
     <Build Include="SalesLT\Tables\trg_Customer_Deletion_Log.sql" />
+    <Build Include="SalesLT\Tables\TooHighPriceChange.sql" />
   </ItemGroup>
 </Project>
