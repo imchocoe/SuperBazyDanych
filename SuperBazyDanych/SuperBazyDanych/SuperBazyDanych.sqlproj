@@ -75,6 +75,7 @@
     <Folder Include="Scripts\" />
     <Folder Include="dbo\XMLSchemaCollections\" />
     <Folder Include="Student_7\Views\" />
+    <Folder Include="Database Triggers\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\BuildVersion.sql" />
@@ -126,5 +127,9 @@
     <Build Include="SalesLT\Tables\DeletedCustomersLog.sql" />
     <Build Include="SalesLT\Tables\trg_Customer_Deletion_Log.sql" />
     <Build Include="SalesLT\Tables\TooHighPriceChange.sql" />
+    <Build Include="dbo\Tables\DatabaseAuditLog.sql" />
+    <Build Include="Database Triggers\trg_DropTable.sql" />
+    <Build Include="Database Triggers\trg_AlterTable.sql" />
+    <Build Include="Database Triggers\trg_CreateTable.sql" />
   </ItemGroup>
 </Project>
