@@ -2290,3 +2290,102 @@ GO
 
 
 GO
+
+--test
+UPDATE SalesLT.Product 
+SET ListPrice = ListPrice * 1.1 
+WHERE ProductID = 680;
+GO
+
+SELECT * FROM SalesLT.ProductPriceHistory
+GO
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+WITH CategoryHierarchy AS
+(
+    -- anchor
+    SELECT 
+        ProductCategoryID,
+        ParentProductCategoryID,
+        Name,
+        cast (Name as nvarchar(max)) as CategoryPath
+    FROM SalesLT.ProductCategory
+    WHERE ParentProductCategoryID IS NULL
+
+    UNION ALL
+
+    -- recursive member
+    SELECT 
+        c.ProductCategoryID,
+        c.ParentProductCategoryID,
+        c.Name,
+        cast(ch.CategoryPath+'->'+c.Name as nvarchar(max))
+    FROM SalesLT.ProductCategory c
+    JOIN CategoryHierarchy ch 
+        ON c.ParentProductCategoryID = ch.ProductCategoryID
+)
+SELECT *
+FROM CategoryHierarchy
+ORDER BY CategoryPath;
+GO
+
+-- Test
+UPDATE SalesLT.Product 
+SET ListPrice = ListPrice * 1.3 
+WHERE ProductID = 680;
+GO
+
+SELECT * FROM SalesLT.TooHighPriceChange;
+GO
+
+--dane testowe
+insert into SalesLT.ProductReview (ProductID,Rating)
+values (680,3),(680,4),(707,1),(707,5)
+GO
+
+with AverageRating as (
+select ProductID, avg(Rating) as Average
+from SalesLT.ProductReview
+group by ProductID)
+
+select 
+p.Name, ar.Average
+from SalesLT.Product p
+join AverageRating ar on p.ProductID = ar.ProductID
+where ar.Average<3
+GO
+
+--Syntax Error: Incorrect syntax near '50005'.
+--Syntax Error: An internal parser error occurred.
+--
+--CREATE OR ALTER TRIGGER SalesLT.trg_Product_PriceChangeHigher
+--ON SalesLT.Product
+--after update
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
+--    if exists (
+--    select 1
+--    from inserted i
+--    join deleted d on i.ProductID=d.ProductID
+--    where i.ListPrice >d.ListPrice*1.2)
+--    begin
+--        INSERT INTO SalesLT.TooHighPriceChange (ProductID, OldPrice, NewPrice)
+--        SELECT 
+--            i.ProductID,
+--            d.ListPrice AS OldPrice,
+--            i.ListPrice AS NewPrice
+--        FROM INSERTED i
+--        JOIN DELETED d ON i.ProductID = d.ProductID
+--        WHERE i.ListPrice>1.2 *d.ListPrice;
+--
+--    rollback tran
+--    throw 50005,'Próba zakończona niepowodzeniem, za wysoka cena',1
+--    end
+--END
+
+
+
+GO
