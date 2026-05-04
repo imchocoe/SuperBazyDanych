@@ -2439,3 +2439,79 @@ end
 -- Zadanie 1
 -- =============================================
 GO
+
+--Syntax Error: Incorrect syntax near 'select'.
+---- =============================================
+---- Emilia
+---- Delimata
+---- 238507
+---- =============================================
+--
+---- =============================================
+---- Zadanie 1
+---- =============================================
+--create or alter function SalesLT.BestRecord (
+--@ModifiedDate datetime = '2020-01-01',
+--@FirstName nvarchar(50)= 'Gregory',
+--@NameStyle bit=0)
+--returns int 
+--as 
+--begin
+--	declare @CID int
+--	select top 1 @CID=[CustomerID] 
+--	from dbo.[238507_order]
+--	where ModifiedDate > @ModifiedDate and FirstName=@FirstName and NameStyle = @NameStyle
+--	return @CID
+--end
+--
+--select SalesLT.BestRecord()
+--
+--
+----poprawic view zeby mial 3 kolumny o roznych typach danych i CustomerID jako nastepna kolumne
+---- =============================================
+---- Zadanie 2
+---- =============================================
+--select top 25 ProductID,Name,ListPrice into ##TopProducts
+--from SalesLt.Product
+--order by ListPrice
+--
+--
+--CREATE FUNCTION Student_238507.ufn_CalcAdjustedPrices 
+--(
+--   
+--)
+--RETURNS @Summary TABLE
+--(
+--ProductID int,
+--ListPrice money
+--)
+--as
+--begin
+--update ##TopProducts set ListPrice =ListPrice-(ListPrice*0.05))
+--end
+--
+----zadanie nie jest mozliwe do wykonania
+--
+---- =============================================
+---- Zadanie 3
+---- =============================================
+--
+---- =============================================
+---- Zadanie 4
+---- =============================================
+--
+---- =============================================
+---- Zadanie 5
+---- =============================================
+--
+---- =============================================
+---- Zadanie 6
+---- =============================================
+--
+---- =============================================
+---- Zadanie 1
+---- =============================================
+
+
+
+GO
