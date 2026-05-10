@@ -2552,3 +2552,106 @@ GO
 
 
 GO
+
+-- =============================================
+-- Zadanie 4
+-- =============================================
+
+-- =============================================
+-- Zadanie 5
+-- =============================================
+
+-- =============================================
+-- Zadanie 6
+-- =============================================
+
+
+GO
+
+--Syntax Error: Incorrect syntax near 'select'.
+---- =============================================
+---- Emilia
+---- Delimata
+---- 238507
+---- =============================================
+--
+---- =============================================
+---- Zadanie 1
+---- =============================================
+--create or alter function SalesLT.BestRecord (
+--@Name nvarchar(50)='Road-150 Red, 62',
+--@ListPrice money= 1364.50,
+--@Weight decimal(8,2)=1215.62)
+--returns int 
+--as 
+--begin
+--	declare @PID int
+--	select top 1 @PID=[ProductID] 
+--	from dbo.[238507_order]
+--	where ListPrice > @ListPrice and Name=@Name and Weight !=@Weight
+--	order by ListPrice desc --w zadaniu bylo wspomniane zeby dodac ale na zajeciach nie zrobilismy
+--	return @PID
+--end
+--
+--select SalesLT.BestRecord()--nie wiem dlaczego ta komenda nie dziala (tak tez bylo na zajeciach)
+
+GO
+
+--Syntax Error: Incorrect syntax near 'CREATE'.
+--Syntax Error: Incorrect syntax near 'FUNCTION'.
+--
+---- =============================================
+---- Zadanie 2
+---- =============================================
+--select top 25 ProductID,Name,ListPrice into ##TopProducts
+--from SalesLt.Product
+--order by ListPrice
+--
+--
+--CREATE FUNCTION Student_238507.ufn_CalcAdjustedPrices 
+--(
+--   
+--)
+--RETURNS @Summary TABLE
+--(
+--ProductID int,
+--ListPrice money
+--)
+--as
+--begin
+--update ##TopProducts set ListPrice =ListPrice-(ListPrice*0.05))
+--end
+
+GO
+
+--Syntax Error: Incorrect syntax near 'create'.
+----zadanie nie jest mozliwe do wykonania
+--
+---- =============================================
+---- Zadanie 3
+---- =============================================
+--
+--CREATE SCHEMA Student_238507 AUTHORIZATION dbo;--uzyte aby stworzyc nieistniejacy wczesniej schemat
+--
+--
+--create or alter function Student_238507.ufn_ProductsJsonByCategory(
+--@CategoryName NVARCHAR(50)
+--)
+--returns nvarchar(max)
+--as
+--begin
+--	declare @Product nvarchar(max)
+--	set @Product=(
+--	SELECT pc.[ProductCategoryID],
+--		  p.Name
+--	  FROM [SalesLT].[ProductCategory] pc
+--	  join SalesLT.Product p
+--	  on pc.ProductCategoryID = p.ProductCategoryID
+--	  where pc.Name='Mountain Bikes'
+--	  for json path)
+--	  return @Product
+--end
+
+
+
+GO
