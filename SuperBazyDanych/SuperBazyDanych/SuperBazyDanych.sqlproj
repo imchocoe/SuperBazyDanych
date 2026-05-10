@@ -76,6 +76,9 @@
     <Folder Include="dbo\XMLSchemaCollections\" />
     <Folder Include="Student_7\Views\" />
     <Folder Include="Database Triggers\" />
+    <Folder Include="Wypo\" />
+    <Folder Include="Wypo\Views\" />
+    <Folder Include="Wypo\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\BuildVersion.sql" />
@@ -132,5 +135,9 @@
     <Build Include="Database Triggers\trg_AlterTable.sql" />
     <Build Include="Database Triggers\trg_CreateTable.sql" />
     <Build Include="SalesLT\Tables\ProductReview.sql" />
+    <Build Include="Wypo\Views\vAutaDostepnosc.sql" />
+    <Build Include="Wypo\Functions\ufn_ProgramCena.sql" />
+    <Build Include="Wypo\Functions\mtvf_RaportStatusKlienta.sql" />
+    <Build Include="Wypo\Functions\itvf_MarkaHistoria.sql" />
   </ItemGroup>
 </Project>
