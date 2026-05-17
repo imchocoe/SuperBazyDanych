@@ -141,5 +141,6 @@
     <Build Include="Wypo\Functions\itvf_MarkaHistoria.sql" />
     <Build Include="dbo\Functions\fn_GetCustomerCreditRisk.sql" />
     <Build Include="SalesLT\Tables\ProductInventory.sql" />
+    <Build Include="SalesLT\Tables\ProductInventory_1.sql" />
   </ItemGroup>
 </Project>

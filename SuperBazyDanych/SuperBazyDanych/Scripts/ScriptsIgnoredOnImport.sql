@@ -3734,3 +3734,163 @@ end
 -- Zadanie 7
 -- =============================================
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+-- =============================================
+-- Zadanie 1
+-- =============================================
+create or alter procedure SalesLT.AddCustomer (
+    @FirstName nvarchar(50),
+    @LastName E7_surname,
+    @EmailAddress nvarchar(50),
+    @Phone nvarchar(25),
+    @PasswordHash varchar(128),
+    @PasswordSalt varchar(10)
+
+)
+as
+begin
+    insert into [238507].Customer ([FirstName], [LastName], [EmailAddress], [Phone],[PasswordHash],[PasswordSalt], [ModifiedDate])
+    values (@FirstName, @LastName, @EmailAddress, @Phone,@PasswordHash,@PasswordSalt, getdate())
+
+end
+GO
+
+exec SalesLT.AddCustomer 'Emilia', 'Delimata', 'swrysg@gmail.com', '+48862529464','74738392ifjf','7gnsifmsi'
+GO
+
+--nie istnieje tabela w schemacie SalesLT nazwana Customer, jest taka w schemacie [238507]
+
+-- =============================================
+-- Zadanie 2
+-- =============================================
+create or alter procedure SalesLT.FindCustomer(
+    @FirstName nvarchar(50),
+    @LastName E7_surname,
+    @EmailAddress nvarchar(50),
+    @CustomerID int
+)
+as
+begin
+    set nocount on
+    select *
+    from [238507].[Customer]
+    where (@FirstName is null or FirstName = @FirstName)
+    and (@LastName is null or LastName = @LastName)
+    and (@EmailAddress is null or EmailAddress = @EmailAddress)
+    and (@CustomerID is null or CustomerID = @CustomerID)
+end
+GO
+
+--taka sama sytuacja ze schematami jak poprzednio
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+-- zadanie nie ma rozwiązania, poniewaz zmienna tabeleryczna nie moze być uzywana jako output procedury
+
+-- =============================================
+-- Zadanie 4
+-- =============================================
+create or alter function SalesLT.IsLastNameUnique(
+    @LastName E7_surname
+)
+returns bit
+as 
+begin
+    declare @NameExists bit
+    select @NameExists = isLastNameUnique(@LastName)
+
+    if @NameExists = 0
+    begin 
+        return 0
+    end
+
+
+    if @NameExists is null
+    begin 
+        return 1
+    end
+
+    return 0
+end
+GO
+
+create or alter procedure SalesLT.AddNewProduct
+    @ProductName nvarchar(50),
+    @ProductCategory nvarchar(50),
+    @ListPrice money,
+    @Amount int,
+    @ProductNumber nvarchar(65)
+as 
+begin
+    BEGIN TRY
+        BEGIN TRAN;
+
+        declare @CategoryID int
+        select @CategoryID =ProductCategoryID
+        from SalesLT.ProductCategory
+        where [Name] = @ProductCategory
+
+        insert into SalesLT.Product
+        (
+            [Name], [ProductNumber], [ProductCategoryID], StandardCost, ListPrice, [SellStartDate], [rowguid], [ModifiedDate]
+        )
+        values
+        (@ProductName,@ProductNumber,
+            @CategoryID,
+            @ListPrice,
+            @ListPrice,
+            getdate(),
+            newid(),
+            getdate()
+        )
+        declare @ProductID int
+        set @ProductID = @@IDENTITY
+
+        insert into SalesLT.ProductInventory (ProductID, ProductAmount)
+        values (@ProductID, @Amount)
+        commit tran
+
+
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRAN;
+
+        SELECT ERROR_MESSAGE() AS ErrorMessage;
+    END CATCH;
+end
+GO
+
+-- =============================================
+-- Zadanie 7
+-- =============================================
+create table #TopProducts
+(
+    ProductID int,
+    [Name] nvarchar(50),
+    ListPrice money
+)
+GO
+
+insert into #TopProducts (ProductID, [Name], ListPrice)
+select top 25 ProductID, [Name], ListPrice
+from SalesLT.Product
+order by ListPrice desc
+GO
+
+declare @Summary TABLE
+(
+    ProductID int,
+    [Name] nvarchar(50),
+    ListPrice money,
+    NewPrice money
+)
+-- poniwaz zmienna tabelaryczna @Summary nie jest deklarowana w cielie procedury, nie mozna 
+-- do niej się odwołać, czyli zadanie nie ma rozwiązania
+GO
