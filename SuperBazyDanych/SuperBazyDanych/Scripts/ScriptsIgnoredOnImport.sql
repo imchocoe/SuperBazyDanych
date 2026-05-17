@@ -3261,3 +3261,53 @@ GO
 
 
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+-- =============================================
+-- Zadanie 1
+-- =============================================
+create or alter procedure SalesLT.AddCustomer (
+    @FirstName nvarchar(50),
+    @LastName E7_surname,
+    @EmailAddress nvarchar(50),
+    @Phone nvarchar(25),
+    @PasswordHash varchar(128),
+    @PasswordSalt varchar(10)
+
+)
+as
+begin
+    insert into [238507].Customer ([FirstName], [LastName], [EmailAddress], [Phone],[PasswordHash],[PasswordSalt], [ModifiedDate])
+    values (@FirstName, @LastName, @EmailAddress, @Phone,@PasswordHash,@PasswordSalt, getdate())
+
+end
+GO
+
+exec SalesLT.AddCustomer 'Emilia', 'Delimata', 'swrysg@gmail.com', '+48862529464','74738392ifjf','7gnsifmsi'
+GO
+
+--nie istnieje tabela w schemacie SalesLT nazwana Customer, jest taka w schemacie [238507]
+-- =============================================
+-- Zadanie 2
+-- =============================================
+-- =============================================
+-- Zadanie 3
+-- =============================================
+-- =============================================
+-- Zadanie 4
+-- =============================================
+-- =============================================
+-- Zadanie 5
+-- =============================================
+-- =============================================
+-- Zadanie 6
+-- =============================================
+-- =============================================
+-- Zadanie 7
+-- =============================================
+
+GO
