@@ -142,5 +142,6 @@
     <Build Include="dbo\Functions\fn_GetCustomerCreditRisk.sql" />
     <Build Include="SalesLT\Tables\ProductInventory.sql" />
     <Build Include="SalesLT\Tables\ProductInventory_1.sql" />
+    <Build Include="dbo\Tables\BazaSalonuSamochodowego.sql" />
   </ItemGroup>
 </Project>

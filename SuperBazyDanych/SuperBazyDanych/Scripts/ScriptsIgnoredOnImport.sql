@@ -3921,3 +3921,36 @@ join SalesLT.ProductCategory pc on p.ProductCategoryID=pc.ProductCategoryID
 -- Zadanie 4
 -- =============================================
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+-- =============================================
+-- Zadanie 1
+-- =============================================
+SELECT distinct 
+    p.Name,
+    max(p.ListPrice) over (partition by pc.ProductCategory) as maxprice, 
+    min(p.ListPrice) over (partition by pc.ProductCategory) as minprice,
+    count(p.ProductID) over (partition by pc.ProductCategory) as productcount
+FROM SalesLT.Product p
+join SalesLT.ProductCategory pc on p.ProductCategoryID=pc.ProductCategoryID
+GO
+
+insert into dbo.BazaSalonuSamochodowego values
+('Opel','Astra',2),
+('Citroen','C4',5),
+('Toyota','Yaris',2)
+GO
+
+select 
+    IDModelu,
+    Marka,
+    Model,
+    sum(Sztuki) as Ilość
+
+    from dbo.BazaSalonuSamochodowego
+    group by rollup (IDModelu,Marka, Model)
+GO
