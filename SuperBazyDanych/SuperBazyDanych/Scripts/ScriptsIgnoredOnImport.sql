@@ -3894,3 +3894,30 @@ declare @Summary TABLE
 -- poniwaz zmienna tabelaryczna @Summary nie jest deklarowana w cielie procedury, nie mozna 
 -- do niej się odwołać, czyli zadanie nie ma rozwiązania
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+-- =============================================
+-- Zadanie 1
+-- =============================================
+SELECT distinct
+    p.Name,
+    max(p.ListPrice) over (partition by pc.ProductCategory) as maxprice, 
+    min(p.ListPrice) over (partition by pc.ProductCategory) as minprice,
+    max(p.ProductID) over (partition by pc.ProductCategory) as maxprice
+FROM SalesLT.Product p
+join SalesLT.ProductCategory pc on p.ProductCategoryID=pc.ProductCategoryID
+
+-- =============================================
+-- Zadanie 2
+-- =============================================
+-- =============================================
+-- Zadanie 3
+-- =============================================
+-- =============================================
+-- Zadanie 4
+-- =============================================
+GO
