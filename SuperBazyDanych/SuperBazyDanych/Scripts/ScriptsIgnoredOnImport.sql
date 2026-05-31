@@ -4042,3 +4042,68 @@ select
     from dbo.BazaSalonuSamochodowego
     group by rollup (Marka, Model)
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+-- =============================================
+-- Zadanie 1
+-- =============================================
+SELECT distinct 
+    p.Name,
+    max(p.ListPrice) over (partition by pc.ProductCategory) as maxprice, 
+    min(p.ListPrice) over (partition by pc.ProductCategory) as minprice,
+    count(p.ProductID) over (partition by pc.ProductCategory) as productcount
+FROM SalesLT.Product p
+join SalesLT.ProductCategory pc on p.ProductCategoryID=pc.ProductCategoryID
+GO
+
+insert into dbo.BazaSalonuSamochodowego values
+('Opel','Astra',2),
+('Citroen','C4',5),
+('Toyota','Yaris',2),
+('Opel', 'Corsa', 4),
+('Toyota', 'Corolla', 6),
+('Toyota', 'Aygo', 1)
+GO
+
+select 
+Marka, Model, Sztuki,
+Sum(Sztuki) over (Partition by Marka) as CałkowitaIlośćwMarce,
+rank () over (Partition by Marka order by Sztuki desc) as RankIlościwMarce
+from dbo.BazaSalonuSamochodowego
+order by Marka, RankIlościwMarce
+GO
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+--Wyświetlamy marki aut jako kolumny (PIVOT), a potem za pomocą CTE (aby nie tworzyć tabel tymczasowych) od razu zwijamy to z powrotem do wierszy (UNPIVOT).
+
+with TabelaPivot as(
+    select * from (select Marka,Sztuki from dbo.BazaSalonuSamochodowego) as Tab
+    pivot (sum(Sztuki) for Marka in ([Opel],[Citroen],[Toyota])) as Piv)
+
+    select Marka, Sztuki
+    from TabelaPivot
+    unpivot (Sztuki for Marka in ([Opel],[Citroen],[Toyota])) as Unpiv
+GO
+
+-- =============================================
+-- Zadanie 4
+-- =============================================
+--Właściciel małego salonu samochodowego chce na bieżąco monitorować swój stan magazynowy. Potrzebuje raportu, który w jednym widoku pokaże mu trzy rzeczy: 
+--dokładną liczbe sztuk konkretnego modelu, podsumowanie częściowe dla danej marki oraz całkowita liczbę samochodów. tabela stworzona jest w zadaniu 2
+
+
+select 
+
+    Marka,
+    Model,
+    sum(Sztuki) as Ilość
+
+    from dbo.BazaSalonuSamochodowego
+    group by rollup (Marka, Model)
+GO
