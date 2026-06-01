@@ -4163,3 +4163,39 @@ GO
 -- =============================================
 
 GO
+
+-- =============================================
+-- Emilia
+-- Delimata
+-- 238507
+-- =============================================
+
+-- =============================================
+-- Zadanie 1
+-- =============================================
+USE master; -- i tak na tej bazie trzeba wybrac manualnie
+GO
+
+USE [sql-adb-s238507-dev-pl]
+GO
+
+-- =============================================
+-- Zadanie 2
+-- =============================================
+grant control on schema::SalesLT to [238507]
+GO
+
+-- =============================================
+-- Zadanie 3
+-- =============================================
+revoke control on schema::SalesLT from [238507]
+GO
+
+grant select on SalesLT.Product to [238507]
+GO
+
+grant select on [238507].Customer(FirstName) to [238507]
+GO
+
+grant update on [238507].Customer(FirstName) to [238507]
+GO
