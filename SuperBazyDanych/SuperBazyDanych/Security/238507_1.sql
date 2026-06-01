@@ -1,0 +1,2 @@
+﻿CREATE login [238507]
+WITH PASSWORD = 'Haslomaslo123'
